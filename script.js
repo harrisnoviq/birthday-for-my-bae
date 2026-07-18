@@ -2,13 +2,13 @@ const $ = (s) => document.querySelector(s);
 // Replace these three sample links with your own public Google Drive photo links.
 // Each photo must be shared as: Anyone with the link → Viewer.
 const photos = [
-  'https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYz123/view',
-  'https://drive.google.com/file/d/2AbCdEfGhIjKlMnOpQrStUvWxYz123/view',
-  'https://drive.google.com/file/d/3AbCdEfGhIjKlMnOpQrStUvWxYz123/view'
+  'https://drive.google.com/file/d/1IQt07TKcdjX6kaHHc2e9A7KLurKGY5km/view',
+  'https://drive.google.com/file/d/1tETsJx5hGOiHtVf3fZRHn_C41FmO_xPg/view',
+  'https://drive.google.com/file/d/112m3im2jf4-rC4YzUFy1wohyx8WqCb8z/view'
 ];
 const heroPhotos = [
-  'https://drive.google.com/file/d/4AbCdEfGhIjKlMnOpQrStUvWxYz123/view',
-  'https://drive.google.com/file/d/5AbCdEfGhIjKlMnOpQrStUvWxYz123/view'
+  'https://drive.google.com/file/d/1_gwPvdja0owAGPGDP3Bip4unveX-L3Ah/view',
+  'https://drive.google.com/file/d/1l_T9qaI9Bv8ARcI-Ilhjb0Rq2t-ck09M/view'
 ];
 const scoreEl = $('#score'), board = $('#gameBoard'), win = $('#gameWin');
 let score = 0, candlesLit = false, musicPlaying = false, audioContext;
