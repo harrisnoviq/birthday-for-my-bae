@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Birthday Scrapbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="confetti" aria-hidden="true"></div><div class="glow glow-one"></div><div class="glow glow-two"></div>
+  <nav class="topbar"><a class="brand" href="#home">♡ for my birthday girl</a><div class="nav-actions"><button class="sound-toggle" id="soundToggle" aria-pressed="false">♫ play birthday song</button></div></nav>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy reveal"><p class="eyebrow">a tiny love project, made just for you</p><h1>Happy birthday,<br><em>sweetheart.</em></h1><p class="intro">Today is about every little thing that makes you sparkle. I saved a few favourite moments, baked a virtual cake, and hid a wish for you at the end.</p><a class="primary-btn" href="#memories">open your scrapbook <span>→</span></a></div>
+      <div class="hero-art reveal delay"><div class="orbit orbit-a">♡</div><div class="orbit orbit-b">✦</div><div class="orbit orbit-c">♡</div><div class="polaroid hero-polaroid tilt-left"><div class="photo photo-one"><span>our first<br>adventure</span></div><p>you + me, always</p></div><div class="polaroid hero-polaroid tilt-right"><div class="photo photo-two"><span>the cutest<br>birthday girl</span></div><p>today's main character</p></div><div class="ribbon">birthday<br>edition</div></div>
+    </section>
+    <section class="memories" id="memories"><div class="section-heading reveal"><p class="eyebrow">chapter one</p><h2>Our little collection of <em>us</em></h2><p>A few favourite memories, kept close to my heart.</p></div><div class="photo-strip"><figure class="polaroid memory-card card-a reveal"><div class="memory-photo" data-photo="0"><span>our memory</span></div><figcaption>the day I couldn't stop smiling</figcaption></figure><figure class="polaroid memory-card card-b reveal delay"><div class="memory-photo" data-photo="1"><span>our memory</span></div><figcaption>my favorite kind of chaos</figcaption></figure><figure class="polaroid memory-card card-c reveal delay-2"><div class="memory-photo" data-photo="2"><span>our memory</span></div><figcaption>a very good day</figcaption></figure></div><div class="tape tape-one"></div><div class="tape tape-two"></div></section>
+    <section class="game-section" id="cake-game"><div class="section-heading reveal"><p class="eyebrow">chapter two · a birthday mini-game</p><h2>Make a wish cake <em>with me</em></h2><p id="gamePrompt">Tap the flying sprinkles to decorate your cake. Collect 10!</p></div><div class="game-board reveal" id="gameBoard"><div class="score-card"><span>sprinkles</span><strong id="score">0</strong><small>/ 10</small></div><div class="sticker sticker-star">★</div><div class="sticker sticker-heart">♥</div><div class="cake-wrap" id="cakeWrap" aria-label="Birthday cake"><div class="cake-top"><div class="icing-drip drip-1"></div><div class="icing-drip drip-2"></div><div class="icing-drip drip-3"></div></div><div class="cake-layer layer-1"></div><div class="cake-layer layer-2"></div><div class="cake-plate"></div><div class="candles" id="candles"></div><div class="sprinkles-on-cake" id="sprinklesOnCake"></div></div><div class="game-win" id="gameWin" hidden><p>cake complete!</p><button id="lightCandles" class="primary-btn">light the candles ✦</button></div></div></section>
+    <section class="wish-section" id="wish"><div class="wish-card reveal"><p class="eyebrow">chapter three</p><h2>One more thing…</h2><div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your birthday letter"><div class="envelope-flap"></div><div class="seal">♥</div><div class="letter"><p>My wish for you is a year full of soft mornings, wild laughs, brave dreams, and so many reasons to feel loved. You make every ordinary day feel like a page worth saving.</p><p class="letter-signoff">I love you. Happy birthday, beautiful. ♡</p></div></div><p class="open-note">tap the envelope after you blow out the candles</p></div></section>
+  </main>
+  <footer>made with a whole lot of love &amp; a sprinkle of magic ✦</footer>
+  <script src="script.js"></script>
+</body></html>
