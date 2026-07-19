@@ -1,24 +1,352 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Little Birthday Scrapbook</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Pacifico&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* Inline CSS Stylesheet */
+    :root {
+      --cream: #fff8ee; --paper: #fffdf8; --ink: #44333f; --pink: #ff7d9c;
+      --rose: #e95178; --red: #d94663; --peach: #ffc8ae; --butter: #ffe88a;
+      --lilac: #d9c6ff; --mint: #b8e5d0; --brown: #9d5c5c;
+      --shadow: 0 14px 32px rgba(129, 71, 83, 0.16);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font-family: Quicksand, sans-serif; overflow-x: hidden; }
+    body:before { content: ""; position: fixed; inset: 0; opacity: 0.25; pointer-events: none; background-image: radial-gradient(#d9a6a7 0.7px, transparent 0.7px); background-size: 14px 14px; z-index: -1; }
+    .glow { position: absolute; width: 450px; height: 450px; border-radius: 50%; filter: blur(10px); opacity: 0.35; z-index: -2; }
+    .glow-one { background: var(--peach); top: 40px; left: -160px; }
+    .glow-two { background: var(--lilac); top: 650px; right: -180px; }
+    .topbar { height: 84px; display: flex; align-items: center; justify-content: space-between; max-width: 1160px; margin: auto; padding: 0 28px; }
+    .brand { font-family: Pacifico, cursive; color: var(--rose); text-decoration: none; font-size: 1.05rem; }
+    .nav-actions { display: flex; gap: 9px; }
+    .sound-toggle { border: 1px solid rgba(233, 81, 120, 0.28); background: rgba(255, 253, 248, 0.72); border-radius: 999px; color: var(--rose); font: 600 0.8rem Quicksand; padding: 9px 13px; cursor: pointer; transition: 0.25s; }
+    .sound-toggle:hover { background: var(--pink); color: white; transform: translateY(-2px); }
+    section { max-width: 1100px; margin: auto; padding: 95px 28px; }
+    .hero { min-height: 610px; display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center; gap: 55px; padding-top: 60px; }
+    .eyebrow { font: 500 0.69rem "DM Mono", monospace; text-transform: uppercase; letter-spacing: 0.12em; color: var(--rose); margin: 0 0 14px; }
+    .hero h1, .section-heading h2, .wish-card h2 { font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: 0.98; letter-spacing: -0.06em; margin: 0; font-weight: 700; }
+    .section-heading h2, .wish-card h2 { font-size: clamp(2.1rem, 4.5vw, 3.9rem); }
+    em { font-family: Pacifico, cursive; font-weight: 400; color: var(--rose); letter-spacing: 0; }
+    .intro { font-size: 1.05rem; line-height: 1.7; max-width: 465px; margin: 27px 0 30px; }
+    .primary-btn { border: 0; border-radius: 999px; padding: 14px 20px; display: inline-flex; gap: 12px; align-items: center; text-decoration: none; background: var(--rose); color: #fffdf8; font: 700 0.9rem Quicksand; box-shadow: 0 7px 0 #b93858; cursor: pointer; transition: 0.2s; }
+    .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #b93858; }
+    .primary-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 #b93858; }
+    .hero-art { height: 390px; position: relative; }
+    .polaroid { background: var(--paper); padding: 11px 11px 18px; box-shadow: var(--shadow); position: relative; }
+    .polaroid p, .polaroid figcaption { font-family: Pacifico, cursive; margin: 10px 2px 0; text-align: center; font-size: 0.84rem; }
+    .hero-polaroid { position: absolute; width: 215px; }
+    .tilt-left { left: 30px; top: 35px; transform: rotate(-8deg); }
+    .tilt-right { right: 30px; top: 80px; transform: rotate(8deg); }
+    .photo { height: 180px; display: grid; place-items: center; text-align: center; color: white; font: 500 0.75rem "DM Mono"; letter-spacing: 0.06em; }
+    .photo-one { background: linear-gradient(135deg, #f98d8a, #ffcc99); }
+    .photo-two { background: linear-gradient(135deg, #8ac9c1, #b8a5e0); }
+    .ribbon { position: absolute; right: 4px; top: 15px; background: var(--butter); padding: 12px 10px; color: var(--brown); font: 700 0.72rem "DM Mono"; text-align: center; transform: rotate(12deg); box-shadow: 3px 3px 0 rgba(157, 92, 92, 0.14); }
+    .orbit { position: absolute; color: var(--rose); font-size: 1.8rem; animation: float 4s ease-in-out infinite; }
+    .orbit-a { top: 5px; left: 15px; }
+    .orbit-b { bottom: 20px; left: 20px; animation-delay: 1s; }
+    .orbit-c { right: 6px; bottom: 42px; animation-delay: 2s; }
+    @keyframes float { 50% { transform: translateY(-13px) rotate(12deg); } }
+    .section-heading { text-align: center; max-width: 750px; margin: 0 auto 52px; }
+    .section-heading > p:last-child { line-height: 1.6; max-width: 500px; margin: 18px auto 0; }
+    .memories { background: rgba(255, 219, 210, 0.28); max-width: none; position: relative; padding-left: max(28px, calc((100vw - 1100px) / 2 + 28px)); padding-right: max(28px, calc((100vw - 1100px) / 2 + 28px)); }
+    .photo-strip { display: flex; justify-content: center; align-items: flex-start; gap: 32px; }
+    .memory-card { width: 260px; transition: 0.28s; }
+    .memory-card:hover { transform: translateY(-12px) rotate(0deg) !important; }
+    .card-a { transform: rotate(-6deg); }
+    .card-b { transform: rotate(3deg); margin-top: 45px; }
+    .card-c { transform: rotate(-3deg); margin-top: 12px; }
+    .memory-photo { height: 210px; background: linear-gradient(135deg, #ffd6ca, #e1d3ff); display: grid; place-items: center; color: #a76d78; font: 500 0.65rem "DM Mono"; letter-spacing: 0.1em; text-transform: uppercase; background-size: cover; background-position: center; }
+    .memory-photo.has-photo span { display: none; }
+    .tape { width: 73px; height: 20px; background: rgba(255, 232, 138, 0.67); position: absolute; transform: rotate(-12deg); }
+    .tape-one { left: 20%; top: 175px; }
+    .tape-two { right: 17%; bottom: 60px; transform: rotate(15deg); }
+    .game-section { padding-bottom: 115px; }
+    .game-board { height: 440px; max-width: 780px; margin: auto; position: relative; background: rgba(255, 253, 248, 0.62); border: 2px dashed rgba(233, 81, 120, 0.26); border-radius: 38px; overflow: hidden; }
+    .score-card { position: absolute; top: 25px; left: 28px; font: 500 0.78rem "DM Mono"; color: var(--rose); z-index: 2; }
+    .score-card strong { font: 700 2rem Quicksand; }
+    .score-card small { font-size: 0.65rem; }
+    .cake-wrap { position: absolute; bottom: 56px; left: 50%; width: 250px; height: 245px; transform: translateX(-50%); }
+    .cake-layer { position: absolute; left: 20px; width: 210px; background: #f4a8a5; border: 5px solid #d77d86; }
+    .layer-1 { bottom: 34px; height: 78px; border-radius: 10px 10px 24px 24px; }
+    .layer-2 { bottom: 100px; left: 39px; width: 172px; height: 61px; background: #ffce94; border-radius: 14px 14px 6px 6px; }
+    .cake-top { position: absolute; z-index: 1; left: 39px; bottom: 146px; width: 172px; height: 35px; border-radius: 50% 50% 15px 15px; background: #fff4f1; border: 5px solid #d77d86; }
+    .icing-drip { position: absolute; top: 21px; width: 15px; background: #fff4f1; border-radius: 0 0 12px 12px; }
+    .drip-1 { left: 23px; height: 21px; }
+    .drip-2 { left: 75px; height: 29px; }
+    .drip-3 { right: 22px; height: 19px; }
+    .cake-plate { position: absolute; bottom: 13px; left: 1px; width: 248px; height: 28px; border-radius: 50%; background: #c5e5e4; border: 5px solid #82bfc1; }
+    .candles { position: absolute; z-index: 2; bottom: 178px; left: 59px; right: 59px; display: flex; justify-content: space-around; }
+    .candle { width: 10px; height: 41px; border-radius: 6px; background: repeating-linear-gradient(45deg, #ff91b0 0 5px, #fff 5px 10px); position: relative; }
+    .flame { position: absolute; width: 13px; height: 19px; background: var(--butter); border-radius: 50%; top: -19px; left: -2px; transform: rotate(45deg); box-shadow: 0 0 15px #ffb85c; animation: flicker 0.6s alternate infinite; }
+    .flame.out { display: none; }
+    @keyframes flicker { to { transform: rotate(45deg) scale(0.8, 1.12); } }
+    .sprinkles-on-cake { position: absolute; z-index: 3; inset: 20px 25px 40px; }
+    .sprinkle { position: absolute; width: 8px; height: 4px; border-radius: 5px; background: var(--lilac); transform: rotate(var(--r)); animation: pop 0.25s ease-out; }
+    .sprinkle:nth-child(3n) { background: var(--mint); }
+    .sprinkle:nth-child(3n + 1) { background: var(--butter); }
+    @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+    .flying-sprinkle { position: absolute; z-index: 5; width: 25px; height: 13px; border: 0; border-radius: 50%; background: var(--pink); box-shadow: 0 2px 0 var(--red); cursor: pointer; animation: drift 2.3s ease-in-out infinite; }
+    .flying-sprinkle:after { content: "♥"; color: white; font-size: 10px; }
+    @keyframes drift { 50% { transform: translate(var(--x), var(--y)) rotate(18deg); } }
+    .sticker { position: absolute; font-family: Pacifico, cursive; font-size: 2rem; }
+    .sticker-star { right: 33px; top: 42px; color: var(--butter); transform: rotate(18deg); }
+    .sticker-heart { left: 44px; bottom: 50px; color: var(--rose); transform: rotate(-20deg); }
+    .game-win { position: absolute; z-index: 7; top: 53px; left: 50%; transform: translateX(-50%); text-align: center; background: var(--paper); padding: 12px 14px 17px; box-shadow: var(--shadow); animation: pop 0.4s ease-out; }
+    .game-win p { font-family: Pacifico, cursive; color: var(--rose); margin: 0 0 10px; }
+    .wish-section { padding-top: 20px; }
+    .wish-card { max-width: 660px; margin: auto; text-align: center; }
+    .envelope { width: min(480px, 90%); height: 245px; background: #f7a6af; margin: 38px auto 18px; position: relative; cursor: pointer; box-shadow: var(--shadow); border-radius: 8px; }
+    .envelope:before, .envelope:after { content: ""; position: absolute; bottom: 0; width: 0; height: 0; border-style: solid; z-index: 2; }
+    .envelope:before { left: 0; border-width: 122px 0 122px 240px; border-color: transparent transparent transparent #f8bbc0; }
+    .envelope:after { right: 0; border-width: 122px 240px 122px 0; border-color: transparent #f3a0aa transparent transparent; }
+    .envelope-flap { position: absolute; top: 0; left: 0; border-style: solid; border-width: 122px 240px 0; border-color: #ffd0cf transparent transparent; transform-origin: top; z-index: 4; transition: 0.8s; }
+    .seal { z-index: 5; position: absolute; left: 50%; top: 100px; transform: translateX(-50%); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--rose); color: #fff; transition: 0.5s; }
+    .letter { position: absolute; left: 30px; right: 30px; bottom: 10px; min-height: 215px; background: #fffdf8; padding: 26px 28px; text-align: left; z-index: 1; transition: 0.8s 0.1s; color: var(--brown); font-size: 0.9rem; line-height: 1.55; }
+    .letter p { margin: 0; }
+    .letter-signoff { font-family: Pacifico, cursive; font-size: 1rem !important; margin-top: 12px !important; color: var(--rose); }
+    .envelope.open .envelope-flap { transform: rotateX(180deg); z-index: 0; }
+    .envelope.open .seal { opacity: 0; transform: translateX(-50%) scale(0.3); }
+    .envelope.open .letter { transform: translateY(-122px); }
+    .open-note { font: 500 0.76rem "DM Mono"; color: var(--rose); }
+    footer { text-align: center; padding: 40px; color: #a9727f; font: 500 0.72rem "DM Mono"; }
+    .heart-piece { position: fixed; top: -20px; z-index: 50; color: var(--pink); pointer-events: none; animation: fall var(--duration) linear forwards; }
+    @keyframes fall { to { transform: translate(var(--drift), 105vh) rotate(540deg); opacity: 0; } }
+    .reveal { opacity: 0; transform: translateY(22px); transition: 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .delay { transition-delay: 0.12s; }
+    .delay-2 { transition-delay: 0.24s; }
+    
+    .sprinkles-on-cake { pointer-events: none; }
+    .photo.has-photo span { display: none; }
+    .photo, .memory-photo { background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .photo { overflow: hidden; }
+    .hero-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .hero-image-rotated { transform: rotate(-90deg) scale(1.36); }
+
+    @media (max-width: 520px) {
+      .envelope { width: min(92vw, 390px); height: 205px; overflow: visible; }
+      .envelope:before, .envelope:after { width: 100%; height: 100%; border: 0 !important; }
+      .envelope:before { left: 0; background: #f8bbc0; clip-path: polygon(0 0, 50% 54%, 0 100%); }
+      .envelope:after { right: 0; background: #f3a0aa; clip-path: polygon(100% 0, 50% 54%, 100% 100%); }
+      .envelope-flap { width: 100%; height: 54%; border: 0 !important; background: #ffd0cf; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+      .seal { top: 84px; }
+      .letter { left: 18px; right: 18px; bottom: 8px; min-height: 190px; padding: 21px; font-size: 0.78rem; z-index: 1; }
+      .envelope.open .letter { transform: translateY(-165px); z-index: 3; }
+    }
+  </style>
 </head>
 <body>
-  <div id="confetti" aria-hidden="true"></div><div class="glow glow-one"></div><div class="glow glow-two"></div>
-  <nav class="topbar"><a class="brand" href="#home">♡ for my birthday girl</a><div class="nav-actions"><button class="sound-toggle" id="soundToggle" aria-pressed="false">♫ play birthday song</button></div></nav>
+  <div id="confetti" aria-hidden="true"></div>
+  <div class="glow glow-one"></div><div class="glow glow-two"></div>
+  
+  <nav class="topbar">
+    <a class="brand" href="#home">♡ for my birthday girl</a>
+    <div class="nav-actions">
+      <button class="sound-toggle" id="soundToggle" aria-pressed="false">♫ play birthday song</button>
+    </div>
+  </nav>
+
   <main>
     <section class="hero" id="home">
-      <div class="hero-copy reveal"><p class="eyebrow">a tiny love project, made just for you</p><h1>Happy birthday,<br><em>sweetheart.</em></h1><p class="intro">Today is about every little thing that makes you sparkle. I saved a few favourite moments, baked a virtual cake, and hid a wish for you at the end.</p><a class="primary-btn" href="#memories">open your scrapbook <span>→</span></a></div>
-      <div class="hero-art reveal delay"><div class="orbit orbit-a">♡</div><div class="orbit orbit-b">✦</div><div class="orbit orbit-c">♡</div><div class="polaroid hero-polaroid tilt-left"><div class="photo photo-one"><span>our first<br>adventure</span></div><p>you + me, always</p></div><div class="polaroid hero-polaroid tilt-right"><div class="photo photo-two"><span>the cutest<br>birthday girl</span></div><p>today's main character</p></div><div class="ribbon">birthday<br>edition</div></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow">a tiny love project, made just for you</p>
+        <h1>Happy birthday,<br><em>sweetheart.</em></h1>
+        <p class="intro">Today is about every little thing that makes you sparkle. I saved a few favourite moments, baked a virtual cake, and hid a wish for you at the end.</p>
+        <a class="primary-btn" href="#memories">open your scrapbook <span>→</span></a>
+      </div>
+      <div class="hero-art reveal delay">
+        <div class="orbit orbit-a">♡</div><div class="orbit orbit-b">✦</div><div class="orbit orbit-c">♡</div>
+        <div class="polaroid hero-polaroid tilt-left">
+          <div class="photo photo-one"><span>our first<br>adventure</span></div>
+          <p>you + me, always</p>
+        </div>
+        <div class="polaroid hero-polaroid tilt-right">
+          <div class="photo photo-two"><span>the cutest<br>birthday girl</span></div>
+          <p>today's main character</p>
+        </div>
+        <div class="ribbon">birthday<br>edition</div>
+      </div>
     </section>
-    <section class="memories" id="memories"><div class="section-heading reveal"><p class="eyebrow">chapter one</p><h2>Our little collection of <em>us</em></h2><p>A few favourite memories, kept close to my heart.</p></div><div class="photo-strip"><figure class="polaroid memory-card card-a reveal"><div class="memory-photo" data-photo="0"><span>our memory</span></div><figcaption>the day I couldn't stop smiling</figcaption></figure><figure class="polaroid memory-card card-b reveal delay"><div class="memory-photo" data-photo="1"><span>our memory</span></div><figcaption>my favorite kind of chaos</figcaption></figure><figure class="polaroid memory-card card-c reveal delay-2"><div class="memory-photo" data-photo="2"><span>our memory</span></div><figcaption>a very good day</figcaption></figure></div><div class="tape tape-one"></div><div class="tape tape-two"></div></section>
-    <section class="game-section" id="cake-game"><div class="section-heading reveal"><p class="eyebrow">chapter two · a birthday mini-game</p><h2>Make a wish cake <em>with me</em></h2><p id="gamePrompt">Tap the flying sprinkles to decorate your cake. Collect 10!</p></div><div class="game-board reveal" id="gameBoard"><div class="score-card"><span>sprinkles</span><strong id="score">0</strong><small>/ 10</small></div><div class="sticker sticker-star">★</div><div class="sticker sticker-heart">♥</div><div class="cake-wrap" id="cakeWrap" aria-label="Birthday cake"><div class="cake-top"><div class="icing-drip drip-1"></div><div class="icing-drip drip-2"></div><div class="icing-drip drip-3"></div></div><div class="cake-layer layer-1"></div><div class="cake-layer layer-2"></div><div class="cake-plate"></div><div class="candles" id="candles"></div><div class="sprinkles-on-cake" id="sprinklesOnCake"></div></div><div class="game-win" id="gameWin" hidden><p>cake complete!</p><button id="lightCandles" class="primary-btn">light the candles ✦</button></div></div></section>
-    <section class="wish-section" id="wish"><div class="wish-card reveal"><p class="eyebrow">chapter three</p><h2>One more thing…</h2><div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your birthday letter"><div class="envelope-flap"></div><div class="seal">♥</div><div class="letter"><p>My wish for you is a year full of soft mornings, wild laughs, brave dreams, and so many reasons to feel loved. You make every ordinary day feel like a page worth saving.</p><p class="letter-signoff">I love you. Happy birthday, beautiful. ♡</p></div></div><p class="open-note">tap the envelope after you blow out the candles</p></div></section>
+
+    <section class="memories" id="memories">
+      <div class="section-heading reveal">
+        <p class="eyebrow">chapter one</p>
+        <h2>Our little collection of <em>us</em></h2>
+        <p>A few favourite memories, kept close to my heart.</p>
+      </div>
+      <div class="photo-strip">
+        <figure class="polaroid memory-card card-a reveal">
+          <div class="memory-photo" data-photo="0"><span>our memory</span></div>
+          <figcaption>the day I couldn't stop smiling</figcaption>
+        </figure>
+        <figure class="polaroid memory-card card-b reveal delay">
+          <div class="memory-photo" data-photo="1"><span>our memory</span></div>
+          <figcaption>my favorite kind of chaos</figcaption>
+        </figure>
+        <figure class="polaroid memory-card card-c reveal delay-2">
+          <div class="memory-photo" data-photo="2"><span>our memory</span></div>
+          <figcaption>a very good day</figcaption>
+        </figure>
+      </div>
+      <div class="tape tape-one"></div><div class="tape tape-two"></div>
+    </section>
+
+    <section class="game-section" id="cake-game">
+      <div class="section-heading reveal">
+        <p class="eyebrow">chapter two · a birthday mini-game</p>
+        <h2>Make a wish cake <em>with me</em></h2>
+        <p id="gamePrompt">Tap the flying sprinkles to decorate your cake. Collect 10!</p>
+      </div>
+      <div class="game-board reveal" id="gameBoard">
+        <div class="score-card"><span>sprinkles</span><strong id="score">0</strong><small>/ 10</small></div>
+        <div class="sticker sticker-star">★</div><div class="sticker sticker-heart">♥</div>
+        <div class="cake-wrap" id="cakeWrap" aria-label="Birthday cake">
+          <div class="cake-top"><div class="icing-drip drip-1"></div><div class="icing-drip drip-2"></div><div class="icing-drip drip-3"></div></div>
+          <div class="cake-layer layer-1"></div><div class="cake-layer layer-2"></div><div class="cake-plate"></div>
+          <div class="candles" id="candles"></div>
+          <div class="sprinkles-on-cake" id="sprinklesOnCake"></div>
+        </div>
+        <div class="game-win" id="gameWin" hidden>
+          <p>cake complete!</p>
+          <button id="lightCandles" class="primary-btn">light the candles ✦</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="wish-section" id="wish">
+      <div class="wish-card reveal">
+        <p class="eyebrow">chapter three</p>
+        <h2>One more thing…</h2>
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your birthday letter">
+          <div class="envelope-flap"></div><div class="seal">♥</div>
+          <div class="letter">
+            <p>My wish for you is a year full of soft mornings, wild laughs, brave dreams, and so many reasons to feel loved. You make every ordinary day feel like a page worth saving.</p>
+            <p class="letter-signoff">I love you. Happy birthday, beautiful. ♡</p>
+          </div>
+        </div>
+        <p class="open-note">tap the envelope after you blow out the candles</p>
+      </div>
+    </section>
   </main>
+
   <footer>made with a whole lot of love &amp; a sprinkle of magic ✦</footer>
-  <script src="script.js"></script>
-</body></html>
+
+  <script>
+    /* Inline JS Script */
+    const $ = (s) => document.querySelector(s);
+    const photos = [
+      'https://drive.google.com/file/d/1IQt07TKcdjX6kaHHc2e9A7KLurKGY5km/view',
+      'https://drive.google.com/file/d/1tETsJx5hGOiHtVf3fZRHn_C41FmO_xPg/view',
+      'https://drive.google.com/file/d/112m3im2jf4-rC4YzUFy1wohyx8WqCb8z/view'
+    ];
+    const heroPhotos = [
+      'https://drive.google.com/file/d/1_gwPvdja0owAGPGDP3Bip4unveX-L3Ah/view',
+      'https://drive.google.com/file/d/1l_T9qaI9Bv8ARcI-Ilhjb0Rq2t-ck09M/view'
+    ];
+    const scoreEl = $('#score'), board = $('#gameBoard'), win = $('#gameWin');
+    let score = 0, candlesLit = false, musicPlaying = false, audioContext;
+
+    function driveUrl(value) {
+      const id = value.match(/[\w-]{20,}/)?.[0] || value.trim();
+      return id ? 'https://drive.google.com/thumbnail?id=' + id + '&sz=w1600' : '';
+    }
+    function setPhoto(el, value) {
+      const url = driveUrl(value || '');
+      el.classList.remove('has-photo'); el.style.backgroundImage = '';
+      if (!url) return;
+      const image = new Image();
+      image.onload = () => { el.style.backgroundImage = 'url("' + url + '")'; el.classList.add('has-photo'); };
+      image.src = url;
+    }
+    function setHeroPhoto(el, value, rotate = false) {
+      const url = driveUrl(value || '');
+      el.classList.remove('has-photo'); el.style.backgroundImage = ''; el.querySelector('.hero-image')?.remove();
+      if (!url) return;
+      const image = new Image(); image.className = 'hero-image' + (rotate ? ' hero-image-rotated' : '');
+      image.onload = () => { el.append(image); el.classList.add('has-photo'); };
+      image.src = url;
+    }
+    function renderPhotos() {
+      document.querySelectorAll('.memory-photo').forEach((el, i) => setPhoto(el, photos[i]));
+      document.querySelectorAll('.hero-polaroid .photo').forEach((el, i) => setHeroPhoto(el, heroPhotos[i], i === 0));
+    }
+    function addCakeSprinkle() {
+      const s = document.createElement('i'); s.className = 'sprinkle';
+      s.style.left = (18 + Math.random() * 180) + 'px'; s.style.top = (35 + Math.random() * 110) + 'px';
+      s.style.setProperty('--r', (Math.random() * 180) + 'deg'); $('#sprinklesOnCake').append(s);
+    }
+    function spawnSprinkle() {
+      if (score >= 10) return;
+      const b = document.createElement('button'); b.className = 'flying-sprinkle'; b.type = 'button';
+      b.style.left = (12 + Math.random() * 76) + '%'; b.style.top = (25 + Math.random() * 58) + '%';
+      b.style.setProperty('--x', (-18 + Math.random() * 36) + 'px'); b.style.setProperty('--y', (-16 + Math.random() * 32) + 'px');
+      b.setAttribute('aria-label', 'Collect a heart sprinkle');
+      b.addEventListener('click', () => {
+        b.remove(); score++; scoreEl.textContent = score; addCakeSprinkle(); heartConfetti(4);
+        if (score === 10) completeCake(); else setTimeout(spawnSprinkle, 260);
+      });
+      board.append(b);
+      setTimeout(() => { if (b.isConnected) { b.remove(); spawnSprinkle(); } }, 3000);
+    }
+    function completeCake() { win.hidden = false; $('#gamePrompt').textContent = 'Your cake is perfectly sweet — now make it glow.'; heartConfetti(28); }
+    function makeCandles() {
+      $('#candles').innerHTML = '';
+      for (let i = 0; i < 5; i++) { const c = document.createElement('div'); c.className = 'candle'; c.innerHTML = '<i class="flame"></i>'; $('#candles').append(c); }
+    }
+    $('#lightCandles').addEventListener('click', () => {
+      candlesLit = true; win.hidden = true;
+      $('#gamePrompt').textContent = 'Make your birthday wish, then tap each little flame to blow it out.';
+      document.querySelectorAll('.candle').forEach(c => c.addEventListener('click', () => {
+        c.querySelector('.flame').classList.add('out');
+        if (!document.querySelector('.flame:not(.out)')) {
+          $('#gamePrompt').textContent = 'Wish granted. Your letter is ready below…';
+          heartConfetti(55); $('#wish').scrollIntoView({ behavior: 'smooth' });
+        }
+      }));
+    });
+    function heartConfetti(amount = 35) {
+      for (let i = 0; i < amount; i++) {
+        const h = document.createElement('span'); h.className = 'heart-piece'; h.textContent = ['♥', '♡', '✦'][Math.floor(Math.random() * 3)];
+        h.style.left = (Math.random() * 100) + 'vw'; h.style.fontSize = (12 + Math.random() * 17) + 'px';
+        h.style.setProperty('--drift', (-90 + Math.random() * 180) + 'px'); h.style.setProperty('--duration', (2 + Math.random() * 1.8) + 's');
+        $('#confetti').append(h); setTimeout(() => h.remove(), 4500);
+      }
+    }
+    function playHappyBirthday() {
+      const notes = [261.63,261.63,293.66,261.63,349.23,329.63,261.63,261.63,293.66,261.63,392,349.23,261.63,261.63,523.25,440,349.23,329.63,293.66,466.16,466.16,440,349.23,392,349.23];
+      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+      let t = audioContext.currentTime + .06;
+      notes.forEach((freq, i) => {
+        const osc = audioContext.createOscillator(), gain = audioContext.createGain();
+        osc.type = 'sine'; osc.frequency.value = freq;
+        gain.gain.setValueAtTime(.0001, t); gain.gain.exponentialRampToValueAtTime(.12, t + .02); gain.gain.exponentialRampToValueAtTime(.0001, t + .27);
+        osc.connect(gain).connect(audioContext.destination); osc.start(t); osc.stop(t + .29);
+        t += (i === 5 || i === 11 || i === 18 || i === 25) ? .52 : .3;
+      });
+    }
+    $('#soundToggle').addEventListener('click', () => {
+      playHappyBirthday(); musicPlaying = !musicPlaying;
+      $('#soundToggle').textContent = musicPlaying ? '♫ playing birthday song' : '♫ play birthday song';
+    });
+    function openLetter() {
+      if (!candlesLit || document.querySelector('.flame:not(.out)')) {
+        $('#gamePrompt').textContent = 'First, finish the cake and blow out every candle for your secret letter.';
+        $('#cake-game').scrollIntoView({ behavior: 'smooth' }); return;
+      }
+      $('#envelope').classList.add('open'); heartConfetti(32);
+    }
+    $('#envelope').addEventListener('click', openLetter);
+    const observer = new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: .13 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    
+    renderPhotos(); makeCandles(); setTimeout(spawnSprinkle, 700); setTimeout(() => heartConfetti(18), 700);
+  </script>
+</body>
+</html>
