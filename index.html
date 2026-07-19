@@ -162,7 +162,9 @@
     .photo, .memory-photo { background-size: cover; background-position: center; background-repeat: no-repeat; }
     .photo { overflow: hidden; }
     .hero-image { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .hero-image-rotated { transform: rotate(-90deg) scale(1.36); }
+    
+    /* FIX: Disabled the forced -90deg orientation rotation rule so your image stays upright */
+    .hero-image-rotated { transform: none !important; }
 
     /* ==========================================================================
        RESPONSIVE DESIGN SYSTEM (MOBILE FIXES)
@@ -188,7 +190,7 @@
         align-items: center;
         -webkit-overflow-scrolling: touch; 
       }
-      .photo-strip::-webkit-scrollbar { display: none; } /* Clear visible bars */
+      .photo-strip::-webkit-scrollbar { display: none; }
       
       /* Card Un-Squeezing & Level Alignment Engine */
       .memory-card { 
@@ -199,7 +201,7 @@
         transform: none !important; 
       }
       .memory-card:hover { transform: none !important; }
-      .tape { display: none; } /* Clean visual space on tiny views */
+      .tape { display: none; }
       
       .game-board { height: 410px; }
       .game-section { padding-left: 16px; padding-right: 16px; }
@@ -239,13 +241,13 @@
       .candle { width: 22px; height: 48px; margin: 0 2px; cursor: pointer; }
       .flame { left: 4px; }
       .sticker-star { right: 18px; top: 20px; }
-      .sticker-heart { 19px; bottom: 34px; }
+      .sticker-heart { left: 19px; bottom: 34px; }
       
       .game-win { top: 42px; min-width: 184px; }
       .game-win .primary-btn { justify-content: center; }
       .wish-section { padding: 24px 12px 80px; }
       
-      /* Mobile Fluid Envelope Clip-Path Structural Overrides */
+      /* Mobile Fluid Envelope Overrides */
       .envelope { width: min(92vw, 390px); height: 205px; margin-top: 28px; overflow: visible; }
       .envelope:before, .envelope:after { width: 100%; height: 100%; border: 0 !important; }
       .envelope:before { left: 0; background: #f8bbc0; clip-path: polygon(0 0, 50% 54%, 0 100%); }
@@ -275,7 +277,6 @@
   </nav>
 
   <main>
-    <!-- Welcome Screen Banner Area -->
     <section class="hero" id="home">
       <div class="hero-copy reveal">
         <p class="eyebrow">a tiny love project, made just for you</p>
@@ -297,7 +298,6 @@
       </div>
     </section>
 
-    <!-- Chapter 1: Horizontal Carousel Module -->
     <section class="memories" id="memories">
       <div class="section-heading reveal">
         <p class="eyebrow">chapter one</p>
@@ -320,15 +320,16 @@
       </div>
     </section>
 
-    <!-- Chapter 2: Interaction Module Box -->
     <section class="game-section" id="cake-game">
       <div class="section-heading reveal">
         <p class="eyebrow">chapter two · a birthday mini-game</p>
         <h2>Make a wish cake <em>with me</em></h2>
-        <p id="gamePrompt">Tap the flying sprinkles to decorate your cake. Collect 10!</p>
+        <!-- FIX: Adjusted target display text to reflect 5 target sparkles -->
+        <p id="gamePrompt">Tap the flying sprinkles to decorate your cake. Collect 5!</p>
       </div>
       <div class="game-board reveal" id="gameBoard">
-        <div class="score-card"><span>sprinkles</span><strong id="score">0</strong><small>/ 10</small></div>
+        <!-- FIX: Changed score target boundary to / 5 -->
+        <div class="score-card"><span>sprinkles</span><strong id="score">0</strong><small>/ 5</small></div>
         <div class="sticker sticker-star">★</div><div class="sticker sticker-heart">♥</div>
         <div class="cake-wrap" id="cakeWrap" aria-label="Birthday cake">
           <div class="cake-top"><div class="icing-drip drip-1"></div><div class="icing-drip drip-2"></div><div class="icing-drip drip-3"></div></div>
@@ -338,12 +339,12 @@
         </div>
         <div class="game-win" id="gameWin" hidden>
           <p>cake complete!</p>
-          <button id="lightCandles" class="primary-btn">light the candles ✦</button>
+          <!-- FIX: Button copy updated to guide her to blow out the candles -->
+          <button id="lightCandles" class="primary-btn">blow out the candles to open the envelope ✦</button>
         </div>
       </div>
     </section>
 
-    <!-- Chapter 3: Letter Module Container Box -->
     <section class="wish-section" id="wish">
       <div class="wish-card reveal">
         <p class="eyebrow">chapter three</p>
@@ -363,7 +364,6 @@
   <footer>made with a whole lot of love &amp; a sprinkle of magic ✦</footer>
 
   <script>
-    /* Executable Interactive Layer Logic Engine */
     const $ = (s) => document.querySelector(s);
     const photos = [
       'https://drive.google.com/file/d/1IQt07TKcdjX6kaHHc2e9A7KLurKGY5km/view',
@@ -407,14 +407,15 @@
       s.style.setProperty('--r', (Math.random() * 180) + 'deg'); $('#sprinklesOnCake').append(s);
     }
     function spawnSprinkle() {
-      if (score >= 10) return;
+      /* FIX: Core game score collection maximum capped at 5 tokens */
+      if (score >= 5) return;
       const b = document.createElement('button'); b.className = 'flying-sprinkle'; b.type = 'button';
       b.style.left = (12 + Math.random() * 76) + '%'; b.style.top = (25 + Math.random() * 58) + '%';
       b.style.setProperty('--x', (-18 + Math.random() * 36) + 'px'); b.style.setProperty('--y', (-16 + Math.random() * 32) + 'px');
       b.setAttribute('aria-label', 'Collect a heart sprinkle');
       b.addEventListener('click', () => {
         b.remove(); score++; scoreEl.textContent = score; addCakeSprinkle(); heartConfetti(4);
-        if (score === 10) completeCake(); else setTimeout(spawnSprinkle, 260);
+        if (score === 5) completeCake(); else setTimeout(spawnSprinkle, 260);
       });
       board.append(b);
       setTimeout(() => { if (b.isConnected) { b.remove(); spawnSprinkle(); } }, 3000);
